@@ -1,0 +1,161 @@
+.bcna-card {
+  width: 540px;
+  height: min-content;
+  background-color: white; /*3*/
+  box-shadow: 0px 0px 10px #999; /*4*/
+  margin: 0 auto;
+  border-radius: 10px;
+  font-family: Poppins, sans-serif;
+}
+
+.bcna-step {
+  width: 58%;
+  display: flex;
+  flex-direction: column;
+  border: 1px #E2E2E2 solid;
+  background-color: white; /*3*/
+  box-shadow: 0px 0px 10px #999; /*4*/
+  /*background: #d1d1d1;*/
+  margin: 0 auto;
+  border-radius: 10px;
+  overflow-wrap: break-word;
+  padding: 1rem 1.5rem;
+ 
+}
+
+.bcna-payinfo {
+  position: relative;
+  top: 1%;
+  width:300px;
+  height:100px;
+  border: 1px solid #E2E2E2;
+  border-radius: 5px;
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  margin: 0 auto;
+  border-radius 5px;
+  opacity 1;
+  overflow:hidden;
+
+}
+
+.bcna-content {
+  padding: 3em 4em;
+  word-wrap: break-word;
+  font-size: 16px;
+}
+
+.bcna-content p {
+  font-style: normal;
+}
+
+.bcna-content input {
+  color:#676767;
+  widht:100%;
+  overflow:hidden;
+  border: 1px solid #E2E2E2;
+  border-radius:5px;
+  width:100%;
+  padding: 5px 10px;
+}
+.bcna-separator{
+   width: 100%; 
+   text-align: center; 
+   border-bottom: 1px solid #000; 
+   line-height: 0.1em;
+   padding-top: 2em;
+   font-weight: bold;
+   font-style: normal;
+   margin: 2em 0;
+}
+.bcna-separator span {
+  background:#fff; 
+  padding: 0px 20px;
+}
+
+.bcna-butkeplr {
+  display:inline-block;
+  background: #008C261A 0% 0% no-repeat padding-box;
+  border:none;
+  border-radius: 7px;
+  width: 200px;
+  height: 55px;
+  font-size: 18px;
+  font-weight: bold;
+  color:#00B786;
+  letter-spacing:0px;
+  text-align:center;
+}
+.bcna-butkeplr:hover {
+  color:#ffff;
+  background-color:#00B786;
+}
+
+.bcna-butkeplr img {
+  padding: 1px 0;
+  display: inline-block;
+}
+.bcna-butcancel {
+  background: #ffff 0% 0% no-repeat padding-box;
+  border-radius:5px;
+  border:none;
+  width: 200px;
+  height: 55px;
+  font-size: 18px;
+  font-weight: bold;
+  color:#FC5A5A;
+  letter-spacing:0px;
+  text-align:center;
+}
+.bcna-butcancel:hover {
+  color:#B40404;
+}
+
+.bcna-card-title {
+  height: 55%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.bcna-card-title h3 {
+  color:#3C3C3C;
+  font-size: 2rem;
+  font-weight: bolder;
+}
+.bcna-card-title img {
+  float:left;
+  margin: 0 10px 0px;
+}
+.bcna-card-amount {
+  display: flex;
+  justify-content: center;
+  color: #3C3C3C;
+  font-size: 1.5rem;
+  font-weight: lighter;
+}
+.btnText {
+    width: 20%;
+    vertical-align: middle; 
+    /*display: inline-block;*/
+}
+/* page */
+svg {
+  display:inline-flex;
+  vertical-align: middle;
+}
+
+.right {  
+  text-align: end;
+  position: relative;
+}
+
+.input-wrapper {
+  position: relative
+}
+.input-wrapper:after {
+  font-family: 'FontAwesome';
+  content: '\f24d';
+  position: absolute;
+  right: 6px;
+  padding: 5px 1px;
+} 
