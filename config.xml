@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<module>
+    <name>cosmospay</name>
+    <displayName><![CDATA[Cosmospay Payment]]></displayName>
+    <version><![CDATA[0.1.1]]></version>
+    <description><![CDATA[Allows cosmospay payments from Prestashop]]></description>
+    <author><![CDATA[Bitcanna]]></author>
+    <tab><![CDATA[payments_gateways]]></tab>
+    <is_configurable>1</is_configurable>
+    <need_instance>1</need_instance>
+	<limited_countries></limited_countries>
+</module>
