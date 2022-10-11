@@ -160,8 +160,8 @@ class cosmospay extends PaymentModule
       }
       
 
-      //$json = file_get_contents('https://store-api.bitcanna.io');
-      $json = file_get_contents('https://raw.githubusercontent.com/BitCannaGlobal/cosmospay-api/main/cosmos.config.test.json');
+      $json = file_get_contents('https://store-api.bitcanna.io');
+      //$json = file_get_contents('https://raw.githubusercontent.com/BitCannaGlobal/cosmospay-api/main/cosmos.config.test.json');
       //$array = (array)json_decode(json_encode($json));
 
       
