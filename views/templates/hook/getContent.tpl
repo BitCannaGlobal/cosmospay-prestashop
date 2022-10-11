@@ -21,7 +21,7 @@
          </div>
          <legend>Description</legend>
          <div  >
-          <input type="text" value="{$moduleDesc}" class="form-control" name="moduleDesc" id="title" aria-describedby="titleHelp" placeholder="Description of module">
+          <input type="text" value="Cosmos Pay" class="form-control" name="moduleDesc" id="title" aria-describedby="titleHelp" placeholder="Description of module">
           <small id="titleHelp" class="form-text text-muted">This is the payment method description that the customer will see on your website.</small>
          </div>         
       </div>
