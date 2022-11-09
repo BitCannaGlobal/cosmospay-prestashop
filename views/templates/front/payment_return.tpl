@@ -147,8 +147,10 @@
 <div class="timerCard" id="timer">
 Time left: <b><span id="minutes"></span>:<span id="seconds"></span></b>
 </div>
- 
 
+     <div id="cosmos-footer-text">
+         <div>Powered by <b>BitCanna</b></div>
+     </div>
 
 
 
