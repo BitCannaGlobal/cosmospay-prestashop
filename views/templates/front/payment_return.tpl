@@ -11,8 +11,8 @@
 <div id="mainPay">
    <div class="cosmos-payinfo">
       <div class="cosmos-card-title">
-         <img src="{$urls.base_url}modules/cosmospay/img/BCNA-icon.svg" id="chainIcon" width="25" height="25"> 
-         <h4 id="finalAmount">{$totalAmount} bcna</h4>
+         <img style="vertical-align:middle" src="{$urls.base_url}modules/cosmospay/img/BCNA-icon.svg" id="chainIcon" width="25" height="25"> 
+         <div class="cosmos-h3" id="finalAmount"></div> 
       </div>
       <div class="cosmos-card-amount">
          {$orderSymbol}{$orderValue}
@@ -45,7 +45,7 @@
     <div id="cancelTx1" align="center" style="display: none;">
       <img src="{$mainDomain}modules/cosmospay/img/cancel.png" width="75" height="75">
       <br /><br />
-      <h5>Your payment has been canceled</h5>
+      <div class="cosmos-h5">Your payment has been canceled</div>
       <br /><br />
     </div> 
   </div> 
@@ -57,9 +57,9 @@
   <div class="cosmos-payinfo">
     <div class="cosmos-card-title">
       <img id="chainIcon2" src="" width="25" height="25"> 
-      <h5>
+      <div class="cosmos-h5">
         <div id="finalAmount2"></div>
-      </h5>
+      </div>
     </div>
     <div class="cosmos-card-amount">
       {$orderSymbol}{$orderValue}
@@ -71,7 +71,7 @@
       <div id="cancelTx" align="center" style="display: none;">
         <img src="{$urls.base_url}modules/cosmospay/img/cancel.png" width="75" height="75">
         <br /><br />
-        <h5>Keplr canceled</h5>
+        <div class="cosmos-h5">Keplr canceled</div>
         <div id="keplrError" style="color: red;"></div><br />
         <button class="buttonRetry" id="retry">Retry</button> 
         <div align="center"><br />
@@ -81,7 +81,7 @@
       <div id="AcceptedTx" align="center" style="display: none;">
         <img src="{$urls.base_url}modules/cosmospay/img/accepted.png" width="75" height="75">
         <br /><br />
-        <h5>Payment accepted</h5>
+        <div class="cosmos-h5">Payment accepted</div>
         <a href="" id="finalUrlTx" target="_blank">View transaction</a>
       </div>
     </div>
@@ -92,9 +92,9 @@
   <div class="cosmos-payinfo">
     <div class="cosmos-card-title">
       <img id="chainIcon3" src="" width="25" height="25"> 
-      <h5>
-        <div id="finalAmount3"></div>
-      </h5>
+ 
+        <div class="cosmos-h5" id="finalAmount3"></div>
+ 
     </div>
     <div class="cosmos-card-amount">
       {$orderSymbol}{$orderValue}
@@ -124,19 +124,19 @@
         <br />
         <div class="loader" id="spinnerManual"></div>
         <hr>
-        <h5 align="center">Checking</h5>
+        <div class="cosmos-h5" align="center">Checking</div>
       </div>
       <div id="phase3" style="display: none;">
         <div id="AcceptedTx" align="center">
           <img src="{$urls.base_url}modules/cosmospay/img/accepted.png" width="75" height="75">
           <br /><br />
-          <h5>Payment accepted</h5>
+          <div class="cosmos-h5">Payment accepted</div>
           <a href="" id="finalUrlTx" target="_blank">View transaction</a>
         </div>
       </div>
       <div id="errorManual" style="display: none;">
         <div align="center">
-          <h5>Error</h5>
+          <div class="cosmos-h5">Error</div>
           <div id="errorMessage"></div>
         </div>
       </div>
