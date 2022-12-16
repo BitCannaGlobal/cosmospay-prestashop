@@ -46,7 +46,7 @@ class cosmospay extends PaymentModule
     {
         $this->name = 'cosmospay';
         $this->tab = 'payments_gateways';
-        $this->version = '0.1.1';
+        $this->version = '1.0.14';
         $this->ps_versions_compliancy = array('min' => '1.7', 'max' => _PS_VERSION_);
         $this->author = 'Bitcanna';
         $this->controllers = array('validation');
@@ -69,14 +69,7 @@ class cosmospay extends PaymentModule
 
     public function install()
     {
-//         $sqlCreate = "CREATE TABLE `" . _DB_PREFIX_ . ModuleTestTableTest::$definition["table"] . "` (
-//                 `" . ModuleTestTableTest::$definition["primary"] . "` int(11) unsigned NOT NULL AUTO_INCREMENT,
-//                 `champ_varchar_test` varchar(255) DEFAULT NULL,
-//                 `champ_date_test` DATETIME NOT NULL,
-//                 `champ_int_test` int(11) unsigned NOT NULL,
-//                 PRIMARY KEY (`" . ModuleTestTableTest::$definition["primary"] . "`)
-//                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
-                
+
         $sqlCreate = "CREATE TABLE `" . _DB_PREFIX_ . "cosmos_transaction` (
           `id_order` int UNSIGNED NOT NULL,
           `chain_pay` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
@@ -163,9 +156,10 @@ class cosmospay extends PaymentModule
       $json = file_get_contents('https://store-api.bitcanna.io');
       //$json = file_get_contents('https://raw.githubusercontent.com/BitCannaGlobal/cosmospay-api/main/cosmos.config.test.json');
       //$array = (array)json_decode(json_encode($json));
-
+      
       
       $obj = json_decode($json);
+      
       $this->context->smarty->assign('configCosmos', $obj);
       
       
@@ -173,26 +167,13 @@ class cosmospay extends PaymentModule
       $moduleDesc = Configuration::get('CONF_COSMOS_DESC');
       $selectChain = Configuration::get('CONF_COSMOS_CHAINS');
       $selectChainAddr = Configuration::get('CONF_COSMOS_CHAINS_ADDR');
+      
       $unserializeChains = unserialize($selectChain);
       $unserializeChainsAddr = unserialize($selectChainAddr);
-      
-      // var_dump($unserializeChainsAddr);
-      // var_dump($unserializeChains);
-      
-
-
- 
-    /*  foreach ($array as $key => $value) {
-         echo $value;
-         
-      }    */
-      //var_dump($addressLinkedToDb);
       
       
       $this->context->smarty->assign('moduleTitle', $moduleTitle);
       $this->context->smarty->assign('moduleDesc', $moduleDesc);
-      // $this->context->smarty->assign('selectChain', $unserializeChains);
-      // $this->context->smarty->assign('inputActive', $unserializeChainsAddr);
       
       if (!$unserializeChains) {
         $this->context->smarty->assign('selectChain', []); 
@@ -228,9 +209,6 @@ class cosmospay extends PaymentModule
 
         $payment_options = [
             $this->getOfflinePaymentOption(),
-            //$this->getExternalPaymentOption(),
-            //$this->getEmbeddedPaymentOption(),
-            //$this->getIframePaymentOption(),
         ];
 		
         return $payment_options;
