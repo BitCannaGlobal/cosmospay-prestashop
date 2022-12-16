@@ -16,12 +16,12 @@
  
          <legend>Title</legend>
          <div  >
-          <input type="text" value="{$moduleTitle}" class="form-control" name="moduleTitle" id="title" aria-describedby="titleHelp" placeholder="Title of module" disabled>
+          <input type="text" value="Cosmos Pay" class="form-control" name="moduleTitle" id="title" aria-describedby="titleHelp" placeholder="Title of module" disabled>
           <small id="titleHelp" class="form-text text-muted">This is the title of the payment method that shows up in the list of payment methods to pay for the order.</small>
          </div>
          <legend>Description</legend>
          <div  >
-          <input type="text" value="Cosmos Pay" class="form-control" name="moduleDesc" id="title" aria-describedby="titleHelp" placeholder="Description of module">
+          <input type="text" value="{$moduleDesc}" class="form-control" name="moduleDesc" id="title" aria-describedby="titleHelp" placeholder="Description of module">
           <small id="titleHelp" class="form-text text-muted">This is the payment method description that the customer will see on your website.</small>
          </div>         
       </div>
@@ -44,7 +44,10 @@
             {if $dbk eq $v->name}
               <div>
                 <span id="{$dbk}">
-                  <br />Your {$v->name} address <input type="text" name="input[{$dbk}]" id="input_{$v->name}" value="{$dbv}" size="10">
+                  <br />Your {$v->name} address <input type="text" name="input[{$dbk}]" id="input_{$v->name}" value="{$dbv}" size="10" required>
+                      <div id="goodAddr_{$v->name}" style="display: none; color:green;">This is a valid address.</div>
+                      <div id="badAddr_{$v->name}" style="display: none; color:red;">This is an invalid address. Please double-check.</div>
+                      <div id="badAddrPrefix_{$v->name}" style="display: none; color:red;">This address does not belong to this chain. Please update to the right address.</div>     
                     <button id="target" value="{$v->name}" name="get_chain" class="button button-primary" type="button">
                       Connect {$v->name}
                     </button>                    
@@ -55,7 +58,11 @@
         {else}  
           <div>
             <span id="{$v->name}">
-              <br />Your {$v->name} address<input type="text" name="input[{$v->name}]" value="">
+              <br />Your {$v->name} address<input type="text" name="input[{$v->name}]" value="" required>
+                      <div id="goodAddr_{$v->name}" style="display: none; color:green;">This is a valid address.</div>
+                      <div id="badAddr_{$v->name}" style="display: none; color:red;">This is an invalid address. Please double-check.</div>
+                      <div id="badAddrPrefix_{$v->name}" style="display: none; color:red;">Bad address prefiix.</div>              
+              
                     <button id="target" value="{$v->name}" name="get_chain" class="button button-primary" type="button">
                       Connect {$v->name}
                     </button>                 
@@ -73,7 +80,7 @@
           {/foreach}   
         {/if}  -->  
         <br />
-        <button type="submit" name="mymod_pc_form" >
+        <button type="submit" id="sendConfig" name="mymod_pc_form" >
           <i class="process-icon-save"></i> Save Changes
         </button>   
        <!-- {$configCosmos|@var_dump}-->
@@ -117,23 +124,64 @@
 {/if}    
 </fieldset>
 
+<script type="importmap">
+  //"bech32": "https://unpkg.com/bech32@2.0.0/dist/index.js" 
+  {
+    "imports": {
+      "bech32": "/modules/cosmospay/js/bech32.js"
+    }
+  }
+</script>
+<script type="module">
+import bech32 from "bech32";
 
-<script>
 $(document).ready(function() {
-//   $( 'input[name="checkChains[]"]' ).click(function () { 
-//     if ($(this).is(':checked')) {
-//       /* $("#addInput").append(
-//         '<span id="'+$(this).val()+'"><br />Address '+$(this).val()+'<input type="text" name="input['+$(this).val()+']"> ' 
-//       ); */
-//       $("#"+$(this).val()).show();
-//     } else {
-//       // $("#"+$(this).val()).remove();
-//       $("#"+$(this).val()).hide();
-//     }
-//   }); 
+   $( 'input[name="checkChains[]"]' ).click(function () { 
+     if ($(this).is(':checked')) {
+       $("#addInput").append(
+          '<input type="hidden" name="input['+$(this).val()+']">' 
+       ); 
+       //$("#"+$(this).val()).show();
+     } else {
+       $("#"+$(this).val()).remove();
+       // $("#"+$(this).val()).hide();
+     }
+   }); 
  
 
- 
+  $.getJSON( "https://store-api.bitcanna.io", async function( result ) {
+    result.forEach((element) => {
+      
+      // $("#"+element.name).change(function() {
+      $("#input_"+element.name).on('input', function() {   
+        console.log($(this).val()) 
+        try {
+          let bech32Decode = bech32.decode($(this).val())
+          console.log(bech32Decode) 
+          if (bech32Decode.prefix === element.coinLookup.addressPrefix) {
+            $("#goodAddr_"+element.name).show();
+            $("#badAddr_"+element.name).hide();    
+            $("#badAddrPrefix_"+element.name).hide();
+            $('#sendConfig').prop('disabled', false);
+          } else {
+            $("#goodAddr_"+element.name).hide();
+            $("#badAddr_"+element.name).hide(); 
+            $("#badAddrPrefix_"+element.name).show();
+            $('#sendConfig').prop('disabled', true);
+          }
+
+        } catch (error) {
+          console.error(error);
+          $("#goodAddr_"+element.name).hide();
+          $("#badAddrPrefix_"+element.name).hide();
+          $("#badAddr_"+element.name).show();
+          $('#sendConfig').prop('disabled', true);
+        }      
+      });        
+    });         
+  }); 
+  
+  
 });
  jQuery(function($){  
   $( "button[name='get_chain']" ).click( async function() {
@@ -141,7 +189,7 @@ $(document).ready(function() {
     if (!window.keplr) {
       alert( "Please install keplr extension" );
     } else {
-      $.getJSON( "https://raw.githubusercontent.com/BitCannaGlobal/cosmospay-api/main/cosmos.config.test.json", async function( result ) {
+      $.getJSON( "https://store-api.bitcanna.io", async function( result ) {
         let foundChain = result.find(element => element.name === chainCall);        
         
         const chainId = foundChain.chainId
@@ -150,16 +198,13 @@ $(document).ready(function() {
         const accounts = await offlineSigner.getAccounts()         
         console.log(accounts[0].address)
         $( '#input_' + foundChain.name ).val(accounts[0].address)
+            $("#goodAddr_"+foundChain.name).show();
+            $("#badAddr_"+foundChain.name).hide();    
+            $("#badAddrPrefix_"+foundChain.name).hide();  
+            $('#sendConfig').prop('disabled', false);
       });     
     } 
-  });
- fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcanna&vs_currencies=usd,gbp,eur')
-.then((response) => response.json())
-.then(function (data) {
-console.log(data)
-}) 
- 
-  
+  });  
 });
 </script>
  
