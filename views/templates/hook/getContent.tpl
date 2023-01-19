@@ -38,7 +38,7 @@
 
         <br />
         <legend>Your receiving addresses</legend>
-        {foreach from=$configCosmos key=k item=v}      
+        {foreach from=$configCosmos key=k item=v} 
         {if $inputActive}
           {foreach from=$inputActive key=dbk item=dbv} 
             {if $dbk eq $v->name}
@@ -136,17 +136,15 @@
 import bech32 from "bech32";
 
 $(document).ready(function() {
-   $( 'input[name="checkChains[]"]' ).click(function () { 
-     if ($(this).is(':checked')) {
-       $("#addInput").append(
-          '<input type="hidden" name="input['+$(this).val()+']">' 
-       ); 
-       //$("#"+$(this).val()).show();
-     } else {
-       $("#"+$(this).val()).remove();
-       // $("#"+$(this).val()).hide();
-     }
-   }); 
+//    $( 'input[name="checkChains[]"]' ).click(function () { 
+//      if ($(this).is(':checked')) {
+//        $("#addInput").append(
+//           '<input type="hidden" name="input['+$(this).val()+']">' 
+//        ); 
+//      } else {
+//        $("#"+$(this).val()).remove();
+//      }
+//    }); 
  
 
   $.getJSON( "https://store-api.bitcanna.io", async function( result ) {
@@ -157,7 +155,7 @@ $(document).ready(function() {
         console.log($(this).val()) 
         try {
           let bech32Decode = bech32.decode($(this).val())
-          console.log(bech32Decode) 
+          //console.log(bech32Decode) 
           if (bech32Decode.prefix === element.coinLookup.addressPrefix) {
             $("#goodAddr_"+element.name).show();
             $("#badAddr_"+element.name).hide();    
@@ -171,7 +169,7 @@ $(document).ready(function() {
           }
 
         } catch (error) {
-          console.error(error);
+          // console.error(error);
           $("#goodAddr_"+element.name).hide();
           $("#badAddrPrefix_"+element.name).hide();
           $("#badAddr_"+element.name).show();

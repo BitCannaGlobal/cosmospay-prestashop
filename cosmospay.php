@@ -46,7 +46,7 @@ class cosmospay extends PaymentModule
     {
         $this->name = 'cosmospay';
         $this->tab = 'payments_gateways';
-        $this->version = '1.0.14';
+        $this->version = '1.0.15';
         $this->ps_versions_compliancy = array('min' => '1.7', 'max' => _PS_VERSION_);
         $this->author = 'Bitcanna';
         $this->controllers = array('validation');
@@ -129,14 +129,16 @@ class cosmospay extends PaymentModule
  
         Configuration::updateValue('CONF_COSMOS_TITLE', $moduleTitle); 
         Configuration::updateValue('CONF_COSMOS_DESC', $moduleDesc);
- 
-        if (!$checkChains) {
+        Configuration::updateValue('CONF_COSMOS_CHAINS', serialize($checkChains));
+        Configuration::updateValue('CONF_COSMOS_CHAINS_ADDR', serialize($input));  
+          
+        /*if (!$checkChains) {
           Configuration::updateValue('CONF_COSMOS_CHAINS', '');
           Configuration::updateValue('CONF_COSMOS_CHAINS_ADDR', '');        
         } else {
           Configuration::updateValue('CONF_COSMOS_CHAINS', serialize($checkChains));
           Configuration::updateValue('CONF_COSMOS_CHAINS_ADDR', serialize($input));        
-        }
+        }*/
 
           
         $this->context->smarty->assign('confirmation', 'ok');

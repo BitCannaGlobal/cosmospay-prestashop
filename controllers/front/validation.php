@@ -395,7 +395,7 @@ class cosmospayvalidationModuleFrontController extends ModuleFrontController
           $checkError = true;     
       }
 
-      if($cart->id && $checkError === false) {
+      if($cart->id && $checkError === false && $unserializeChains !== false) {
         $this->context->smarty->assign('totalAmount', round(Configuration::get('BITCANNA_TOTAL_'.$cart->id), 4));
         $this->context->smarty->assign('memo', $returnTrans[0]["memo"]);
         $this->context->smarty->assign('viewDenom', $returnTrans[0]["viewDenom"]);
@@ -405,7 +405,7 @@ class cosmospayvalidationModuleFrontController extends ModuleFrontController
         $this->context->smarty->assign('unserializeChains', $unserializeChains);
         $this->context->smarty->assign('mainDomain', Context::getContext()->shop->getBaseURL(true));
         $this->setTemplate('module:cosmospay/views/templates/front/payment_return.tpl');        
-      } elseif ($checkError === true) {
+      } elseif ($checkError === true || $unserializeChains === false) {
         $this->setTemplate('module:cosmospay/views/templates/front/bad_config.tpl');    
       } else {
         $this->context->smarty->assign('mainDomain', Context::getContext()->shop->getBaseURL(true));

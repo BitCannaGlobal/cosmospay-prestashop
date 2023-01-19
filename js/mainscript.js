@@ -1,4 +1,4 @@
-function startChecking( order_id, mainDomain, memo, isBlocked, nonceSelectChain, nonceDeleteOrder, nonceSwitchMethod ) {
+function startChecking( order_id, mainDomain, memo, isBlocked, nonceSelectChain, nonceDeleteOrder, nonceSwitchMethod, setDefault ) {
 
   $( '#chainIcon' ).hide()
   $( '#chainIcon2' ).hide()
@@ -27,8 +27,8 @@ function startChecking( order_id, mainDomain, memo, isBlocked, nonceSelectChain,
     }) 
   } else {
     $('#mainTransaction').show();
-    $.post( mainDomain+"/index.php?fc=module&module=cosmospay&controller=validation", { switch: 'BitCanna', order_id: order_id, nonce: nonceSelectChain }, async function( result ) {
-      let foundChain = await exportCosmosConfig.initConfig.find( element => element.name === 'BitCanna' )
+    $.post( mainDomain+"/index.php?fc=module&module=cosmospay&controller=validation", { switch: setDefault, order_id: order_id, nonce: nonceSelectChain }, async function( result ) {
+      let foundChain = await exportCosmosConfig.initConfig.find( element => element.name === setDefault )
 
       if(result.status === "canceled") {
         window.location.replace(mainDomain + "index.php?fc=module&module=cosmospay&controller=validation&cancel")        

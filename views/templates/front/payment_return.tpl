@@ -18,6 +18,7 @@
          {$orderSymbol}{$orderValue}
       </div>
    </div>
+ 
    <div class="cosmos-content">
       <p>Select your cryptocurrency:</p>
       <div class="box">     
@@ -167,6 +168,8 @@ console.log(exportCosmosConfig)
     var nonceSelectChain = ""
     var nonceDeleteOrder = ""
     var nonceSwitchMethod = ""
+    var nonceSwitchMethod = ""
+    var setDefault = "{$unserializeChains[0]}"
     startChecking( 
       order_id, 
       mainDomain, 
@@ -174,7 +177,8 @@ console.log(exportCosmosConfig)
       isBlocked, 
       nonceSelectChain, 
       nonceDeleteOrder, 
-      nonceSwitchMethod 
+      nonceSwitchMethod,
+      setDefault
     );
 } 
 </script>
