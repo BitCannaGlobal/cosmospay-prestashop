@@ -1,4 +1,4 @@
-function startChecking( order_id, mainDomain, memo, isBlocked, nonceSelectChain, nonceDeleteOrder, nonceSwitchMethod, setDefault ) {
+function startChecking( order_id, mainDomain, memo, isBlocked, nonceSelectChain, nonceDeleteOrder, nonceSwitchMethod, setDefault, isMobile ) {
 
   $( '#chainIcon' ).hide()
   $( '#chainIcon2' ).hide()
@@ -44,6 +44,15 @@ function startChecking( order_id, mainDomain, memo, isBlocked, nonceSelectChain,
         timerOrder( result.startTime )    
       }    
     })
+    
+    let finalMethod = ''
+    if(isMobile) {
+      finalMethod = 'another'
+    } else
+      finalMethod = 'keplr'
+      
+    $.post( mainDomain+"index.php?fc=module&module=cosmospay&controller=validation", { switchMethod: finalMethod}, function( result ) {
+    })  
   }
     
   

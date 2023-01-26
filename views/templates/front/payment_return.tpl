@@ -18,7 +18,7 @@
          {$orderSymbol}{$orderValue}
       </div>
    </div>
- 
+
    <div class="cosmos-content">
       <p>Select your cryptocurrency:</p>
       <div class="box">     
@@ -32,7 +32,10 @@
       <p>Select your prefered way to pay:</p>
       <div class="box">
         <select id="selectMethod">
-          <option value="keplr">Pay automatically with keplr</option>
+          {if !Context::getContext()->isMobile()}
+            <option value="keplr">Pay automatically with keplr</option>
+          {/if}   
+          
           <option value="another">Pay with another wallet</option>
         </select>
       </div>
@@ -101,6 +104,7 @@
       {$orderSymbol}{$orderValue}
     </div>
   </div>
+
   <div class="d-flex justify-content-center">
     <div class="cosmos-content" id="manualFinal">
       <div id="phase1">
@@ -159,7 +163,6 @@ Time left: <b><span id="minutes"></span>:<span id="seconds"></span></b>
 <script>
  
 window.onload = function() {
-console.log(exportCosmosConfig)
   
     var order_id = "{$orderId}";
     var mainDomain = "{$mainDomain}";
@@ -170,6 +173,8 @@ console.log(exportCosmosConfig)
     var nonceSwitchMethod = ""
     var nonceSwitchMethod = ""
     var setDefault = "{$unserializeChains[0]}"
+    var isMobile = "{Context::getContext()->isMobile()}"
+    console.log(isMobile)
     startChecking( 
       order_id, 
       mainDomain, 
@@ -178,7 +183,8 @@ console.log(exportCosmosConfig)
       nonceSelectChain, 
       nonceDeleteOrder, 
       nonceSwitchMethod,
-      setDefault
+      setDefault,
+      isMobile
     );
 } 
 </script>

@@ -237,7 +237,15 @@ class cosmospayvalidationModuleFrontController extends ModuleFrontController
       
       // Check the currency from prestashop and convert it to price chain
       $currencyList = "usd,aed,ars,aud,bdt,bhd,bmd,brl,cad,chf,clp,cny,czk,dkk,eur,gbp,hkd,huf,idr,ils,inr,jpy,krw,kwd,lkr,mmk,mxn,myr,ngn,nok,nzd,php,pkr,pln,rub,sar,sek,sgd,thb,try,twd,uah,vef,vnd,zar,xdr";
-      $dataValueCoin = file_get_contents('https://api.coingecko.com/api/v3/simple/price?ids='.$dataChain['coingeckoId'].'&vs_currencies='.$currencyList);
+
+      
+      if ($dataChain['coingeckoId'] === 'bitcanna') {
+        $dataValueCoin = file_get_contents('https://bcnaracle.bitcanna.io/bcnaracle.json');
+      } else {
+        $dataValueCoin = file_get_contents('https://api.coingecko.com/api/v3/simple/price?ids='.$dataChain['coingeckoId'].'&vs_currencies='.$currencyList);
+      }      
+      
+      
       $decodedData = json_decode($dataValueCoin);
       $currencyNow = strtolower($this->context->currency->iso_code);  
       // And display good price!

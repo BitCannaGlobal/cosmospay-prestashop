@@ -46,7 +46,7 @@ class cosmospay extends PaymentModule
     {
         $this->name = 'cosmospay';
         $this->tab = 'payments_gateways';
-        $this->version = '1.0.15';
+        $this->version = '1.0.16';
         $this->ps_versions_compliancy = array('min' => '1.7', 'max' => _PS_VERSION_);
         $this->author = 'Bitcanna';
         $this->controllers = array('validation');
