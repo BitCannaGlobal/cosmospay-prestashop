@@ -191,14 +191,38 @@ class cosmospayvalidationModuleFrontController extends ModuleFrontController
         }
     }
     public function checkByMemo() {
-      header('Content-Type: application/json');
-      $cart = $this->context->cart;
-      $returnTrans = cosmosSql::getTransaction($cart->id);
-        
-      $json = file_get_contents($returnTrans[0]['lcd_pay'].'/cosmos/tx/v1beta1/txs?events=message.action=%27/cosmos.bank.v1beta1.MsgSend%27&order_by=ORDER_BY_DESC&pagination.limit=10');
-      $obj = json_decode($json);
-        
-      echo $json;     
+        header('Content-Type: application/json');
+        $cart = $this->context->cart;
+        $returnTrans = cosmosSql::getTransaction($cart->id);
+    
+        // Get the LCD URL from the transaction data
+        $lcdPay = $returnTrans[0]['lcd_pay'];
+    
+        // Obtain node information to determine the Cosmos SDK version
+        $nodeInfoJson = file_get_contents($lcdPay.'/cosmos/base/tendermint/v1beta1/node_info');
+        $nodeInfo = json_decode($nodeInfoJson, true);
+    
+        // Check if the node information was obtained successfully
+        if ($nodeInfo !== null && isset($nodeInfo['application_version']['cosmos_sdk_version'])) {
+            // Extract the Cosmos SDK version and remove the 'v' prefix if it exists
+            $cosmosSdkVersion = ltrim($nodeInfo['application_version']['cosmos_sdk_version'], 'v');
+    
+            // Decide which endpoint to use based on the SDK version
+            if (version_compare($cosmosSdkVersion, '0.50.0', '>=')) {
+                // Use the endpoint for SDK v0.50.x
+                $json = file_get_contents($lcdPay.'/cosmos/tx/v1beta1/txs?query=message.action=%27/cosmos.bank.v1beta1.MsgSend%27&order_by=ORDER_BY_DESC&pagination.limit=10');
+            } else {
+                // Use the endpoint for SDK v0.47.x
+                $json = file_get_contents($lcdPay.'/cosmos/tx/v1beta1/txs?events=message.action=%27/cosmos.bank.v1beta1.MsgSend%27&order_by=ORDER_BY_DESC&pagination.limit=10');
+            }
+        } else {
+            // If unable to determine the SDK version, default to the endpoint for SDK v0.50.x
+            $json = file_get_contents($lcdPay.'/cosmos/tx/v1beta1/txs?query=message.action=%27/cosmos.bank.v1beta1.MsgSend%27&order_by=ORDER_BY_DESC&pagination.limit=10');
+        }
+    
+        $obj = json_decode($json);
+    
+        echo $json;     
     }
     public function postProcess()
     {
