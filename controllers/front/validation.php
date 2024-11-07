@@ -194,12 +194,42 @@ class cosmospayvalidationModuleFrontController extends ModuleFrontController
       header('Content-Type: application/json');
       $cart = $this->context->cart;
       $returnTrans = cosmosSql::getTransaction($cart->id);
-        
-      $json = file_get_contents($returnTrans[0]['lcd_pay'].'/cosmos/tx/v1beta1/txs?events=message.action=%27/cosmos.bank.v1beta1.MsgSend%27&order_by=ORDER_BY_DESC&pagination.limit=10');
+      
+      // Get info from LCD Node to get the Tendermint/CometBFT version
+      // example $getTx = file_get_contents($lcdUrl . '/cosmos/tx/v1beta1/txs/' . $getTxVar);
+      $nodeInfoJson = file_get_contents($lcdUrl.'/cosmos/base/tendermint/v1beta1/node_info');
+      $nodeInfo = json_decode($nodeInfoJson, true);
+      if ($nodeInfo !== null && isset($nodeInfo['default_node_info']['version'])) {
+        // Get the string
+        $versionString = $nodeInfo['default_node_info']['version'];
+        // Split the string '.' => "v0" "38" "11"
+        $versionParts = explode('.', $versionString);
+
+        if (isset($versionParts[1])) {
+            // Get the minor version and convert to integer
+            $minorVersion = intval($versionParts[1]);
+
+            // Check the minor version and apply the proper endpoint fix
+            if ($minorVersion >= 38) {
+                $paramName = 'query';
+            } else {
+                $paramName = 'events';
+            }
+        } else {
+            // If something fails getting the version.. use "query" as default
+            $paramName = 'query';
+        }
+    } else {
+        // If something fails querying the node.. use "query" as default
+        $paramName = 'query';
+    }
+   
+      $json = file_get_contents($returnTrans[0]['lcd_pay'].'/cosmos/tx/v1beta1/txs?'. $paramName .'=message.action=%27/cosmos.bank.v1beta1.MsgSend%27&pagination.limit=10&order_by=2&limit=10');
       $obj = json_decode($json);
         
       echo $json;     
     }
+
     public function postProcess()
     {
     if (isset($_GET['check'])) {
